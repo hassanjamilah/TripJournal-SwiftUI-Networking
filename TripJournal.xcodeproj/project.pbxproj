@@ -30,7 +30,20 @@
 		07BCBA8B2B5D65D200C6F687 /* JournalService+Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BCBA8A2B5D65D200C6F687 /* JournalService+Environment.swift */; };
 		07BCBA8F2B5D7EC500C6F687 /* MediaCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07BCBA8E2B5D7EC500C6F687 /* MediaCarousel.swift */; };
 		07F6695D2B589A1E002F8D18 /* AddButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F6695C2B589A1E002F8D18 /* AddButton.swift */; };
+		3F8582182D3A47B5008725D5 /* JournalService+Live.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8582172D3A47B5008725D5 /* JournalService+Live.swift */; };
+		3F8582222D3A6BEF008725D5 /* TripJournalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8582212D3A6BEF008725D5 /* TripJournalTests.swift */; };
+		3F8582292D3A6C0D008725D5 /* APITest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8582282D3A6C0D008725D5 /* APITest.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3F8582232D3A6BEF008725D5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 075A90D72B446996009A1DCB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 075A90DE2B446996009A1DCB;
+			remoteInfo = TripJournal;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		0703FC712B457EF40084DD8A /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
@@ -57,10 +70,21 @@
 		07BCBA8A2B5D65D200C6F687 /* JournalService+Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JournalService+Environment.swift"; sourceTree = "<group>"; };
 		07BCBA8E2B5D7EC500C6F687 /* MediaCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaCarousel.swift; sourceTree = "<group>"; };
 		07F6695C2B589A1E002F8D18 /* AddButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddButton.swift; sourceTree = "<group>"; };
+		3F8582172D3A47B5008725D5 /* JournalService+Live.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JournalService+Live.swift"; sourceTree = "<group>"; };
+		3F85821F2D3A6BEF008725D5 /* TripJournalTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TripJournalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		3F8582212D3A6BEF008725D5 /* TripJournalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripJournalTests.swift; sourceTree = "<group>"; };
+		3F8582282D3A6C0D008725D5 /* APITest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		075A90DC2B446996009A1DCB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3F85821C2D3A6BEF008725D5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -74,6 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				075A90E12B446996009A1DCB /* TripJournal */,
+				3F8582202D3A6BEF008725D5 /* TripJournalTests */,
 				075A90E02B446996009A1DCB /* Products */,
 			);
 			sourceTree = "<group>";
@@ -82,6 +107,7 @@
 			isa = PBXGroup;
 			children = (
 				075A90DF2B446996009A1DCB /* TripJournal.app */,
+				3F85821F2D3A6BEF008725D5 /* TripJournalTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -158,6 +184,7 @@
 				07BCBA8A2B5D65D200C6F687 /* JournalService+Environment.swift */,
 				07BCBA862B5D656E00C6F687 /* JournalService+Mock.swift */,
 				07BCBA882B5D65AD00C6F687 /* JournalService+Unimplemented.swift */,
+				3F8582172D3A47B5008725D5 /* JournalService+Live.swift */,
 			);
 			path = JournalService;
 			sourceTree = "<group>";
@@ -170,6 +197,15 @@
 				0703FC792B493D5B0084DD8A /* LocationService.swift */,
 			);
 			path = LocationPicker;
+			sourceTree = "<group>";
+		};
+		3F8582202D3A6BEF008725D5 /* TripJournalTests */ = {
+			isa = PBXGroup;
+			children = (
+				3F8582282D3A6C0D008725D5 /* APITest.swift */,
+				3F8582212D3A6BEF008725D5 /* TripJournalTests.swift */,
+			);
+			path = TripJournalTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -192,6 +228,24 @@
 			productReference = 075A90DF2B446996009A1DCB /* TripJournal.app */;
 			productType = "com.apple.product-type.application";
 		};
+		3F85821E2D3A6BEF008725D5 /* TripJournalTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3F8582252D3A6BEF008725D5 /* Build configuration list for PBXNativeTarget "TripJournalTests" */;
+			buildPhases = (
+				3F85821B2D3A6BEF008725D5 /* Sources */,
+				3F85821C2D3A6BEF008725D5 /* Frameworks */,
+				3F85821D2D3A6BEF008725D5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				3F8582242D3A6BEF008725D5 /* PBXTargetDependency */,
+			);
+			name = TripJournalTests;
+			productName = TripJournalTests;
+			productReference = 3F85821F2D3A6BEF008725D5 /* TripJournalTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -199,11 +253,15 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1510;
+				LastSwiftUpdateCheck = 1540;
 				LastUpgradeCheck = 1510;
 				TargetAttributes = {
 					075A90DE2B446996009A1DCB = {
 						CreatedOnToolsVersion = 15.1;
+					};
+					3F85821E2D3A6BEF008725D5 = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = 075A90DE2B446996009A1DCB;
 					};
 				};
 			};
@@ -221,6 +279,7 @@
 			projectRoot = "";
 			targets = (
 				075A90DE2B446996009A1DCB /* TripJournal */,
+				3F85821E2D3A6BEF008725D5 /* TripJournalTests */,
 			);
 		};
 /* End PBXProject section */
@@ -231,6 +290,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				075A90E72B446997009A1DCB /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3F85821D2D3A6BEF008725D5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,13 +326,31 @@
 				07BCBA8F2B5D7EC500C6F687 /* MediaCarousel.swift in Sources */,
 				07F6695D2B589A1E002F8D18 /* AddButton.swift in Sources */,
 				075A90F52B446A41009A1DCB /* TripDetails.swift in Sources */,
+				3F8582182D3A47B5008725D5 /* JournalService+Live.swift in Sources */,
 				075A90F32B446A18009A1DCB /* TripList.swift in Sources */,
 				07BCBA8B2B5D65D200C6F687 /* JournalService+Environment.swift in Sources */,
 				075A90F92B446A6F009A1DCB /* TripCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		3F85821B2D3A6BEF008725D5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3F8582292D3A6C0D008725D5 /* APITest.swift in Sources */,
+				3F8582222D3A6BEF008725D5 /* TripJournalTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		3F8582242D3A6BEF008725D5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 075A90DE2B446996009A1DCB /* TripJournal */;
+			targetProxy = 3F8582232D3A6BEF008725D5 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		075A90EB2B446997009A1DCB /* Debug */ = {
@@ -460,6 +544,50 @@
 			};
 			name = Release;
 		};
+		3F8582262D3A6BEF008725D5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = TNP8S2N2UD;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				MACOSX_DEPLOYMENT_TARGET = 14.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.andalus.TripJournalTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TripJournal.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TripJournal";
+			};
+			name = Debug;
+		};
+		3F8582272D3A6BEF008725D5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = TNP8S2N2UD;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				MACOSX_DEPLOYMENT_TARGET = 14.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.andalus.TripJournalTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TripJournal.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TripJournal";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -477,6 +605,15 @@
 			buildConfigurations = (
 				075A90EE2B446997009A1DCB /* Debug */,
 				075A90EF2B446997009A1DCB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3F8582252D3A6BEF008725D5 /* Build configuration list for PBXNativeTarget "TripJournalTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3F8582262D3A6BEF008725D5 /* Debug */,
+				3F8582272D3A6BEF008725D5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
