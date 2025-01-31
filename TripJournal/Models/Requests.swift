@@ -43,7 +43,7 @@ struct MediaCreate: Codable {
     let base64Data: Data
     
     enum CodingKeys: String, CodingKey {
-        case eventId = "evnet_id"
+        case eventId = "event_id"
         case caption
         case base64Data = "base64_data"
     }
@@ -59,7 +59,7 @@ struct EventCreate: Codable {
     let transitionFromPrevious: String?
     
     enum CodingKeys: String, CodingKey {
-        case tripId
+        case tripId = "trip_id"
         case name
         case note
         case date

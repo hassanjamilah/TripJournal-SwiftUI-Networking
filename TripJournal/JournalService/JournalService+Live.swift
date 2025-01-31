@@ -220,7 +220,9 @@ class JournalServiceLive: JournalService {
         func setRequestBody( request: inout URLRequest, body: Codable, token: Token?) {
             do {
                 setRequestHeaders(request: &request, token: token)
-                request.httpBody = try JSONEncoder().encode(body)
+                let encoder = JSONEncoder()
+                encoder.dateEncodingStrategy = .iso8601
+                request.httpBody = try encoder.encode(body)
             } catch {
                 print("Error in encoding the request body")
             }
@@ -316,7 +318,9 @@ class JournalServiceLive: JournalService {
             guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
                 throw APIError.BAD_RESPONSE
             }
-            let token = try JSONDecoder().decode(T.self, from: data)
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .iso8601
+            let token = try decoder.decode(T.self, from: data)
             return token
         } catch {
             throw APIError.BAD_JSON_RESPONSE
