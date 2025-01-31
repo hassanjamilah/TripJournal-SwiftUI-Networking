@@ -17,7 +17,7 @@ class JournalServiceLive: JournalService {
     }
     
     var tokenExpired = false
-    @Published var token: String?
+    @Published var token: Token?
     
     
     
@@ -39,9 +39,9 @@ class JournalServiceLive: JournalService {
         
         case register(String, String)
         case login(String, String)
-        case trips(HttpMethod, Int?, TripCreate?, TripUpdate?)
-        case events(HttpMethod, Int?, EventCreate?, EventUpdate?)
-        case media(HttpMethod, Int?, MediaCreate?)
+        case trips(HttpMethod, Int?, TripCreate?, TripUpdate?, Token?)
+        case events(HttpMethod, Int?, EventCreate?, EventUpdate?, Token?)
+        case media(HttpMethod, Int?, MediaCreate?, Token?)
         
         var urlString: String {
             switch self {
@@ -49,17 +49,17 @@ class JournalServiceLive: JournalService {
                 return "\(APIEndPoints.BASE_URL)/register"
             case .login:
                 return "\(APIEndPoints.BASE_URL)/token"
-            case let .trips(_ , tripID, _, _):
+            case let .trips(_ , tripID, _, _, _):
                 guard let tripID = tripID else {
                     return "\(APIEndPoints.BASE_URL)/trips"
                 }
                 return "\(APIEndPoints.BASE_URL)/trips/\(tripID)"
-            case let .events(_, eventID, _, _):
+            case let .events(_, eventID, _, _, _):
                 guard let eventID = eventID else {
                     return "\(APIEndPoints.BASE_URL)/events"
                 }
                 return "\(APIEndPoints.BASE_URL)/events/\(eventID)"
-            case let .media(_, mediaID, _):
+            case let .media(_, mediaID, _, _):
                 guard let mediaID = mediaID else {
                     return "\(APIEndPoints.BASE_URL)/media"
                 }
@@ -77,12 +77,12 @@ class JournalServiceLive: JournalService {
                 return createRegisterRequest(userName: userName, password: password)
             case let .login(userName, password):
                 return createLoginRequest(userName: userName, password: password)
-            case let .trips(httpMethod, tripID, tripBody, tripUpdateBody):
-                return createTripsRequest(httpMethod: httpMethod, tripID: tripID, tripBody: tripBody, tripUpdateBody: tripUpdateBody)
-            case let .events(httpMethod, eventID, eventBody, eventUpdateBody):
-                return createEventsRequest(httpMethod: httpMethod, eventID: eventID, eventBody: eventBody, eventUpdateBody: eventUpdateBody)
-            case let .media(httpMethod, mediaID, mediaBody):
-                return createMediaRequest(httpMethod: httpMethod, mediaID: mediaID, mediaBody: mediaBody)
+            case let .trips(httpMethod, tripID, tripBody, tripUpdateBody, token):
+                return createTripsRequest(httpMethod: httpMethod, tripID: tripID, tripBody: tripBody, tripUpdateBody: tripUpdateBody, token: token)
+            case let .events(httpMethod, eventID, eventBody, eventUpdateBody, token):
+                return createEventsRequest(httpMethod: httpMethod, eventID: eventID, eventBody: eventBody, eventUpdateBody: eventUpdateBody, token: token)
+            case let .media(httpMethod, mediaID, mediaBody, token):
+                return createMediaRequest(httpMethod: httpMethod, mediaID: mediaID, mediaBody: mediaBody, token: token)
             default:
                 return nil
                 break
@@ -94,7 +94,7 @@ class JournalServiceLive: JournalService {
             var request = URLRequest(url: self.url)
             let body = RegisterUserRequestBody(userName: userName, password: password)
             request.httpMethod = HttpMethod.POST.rawValue
-            setRequestBody(request: &request, body: body)
+            setRequestBody(request: &request, body: body, token: nil)
             guard let _ = request.httpBody else {
                 return nil
             }
@@ -105,14 +105,14 @@ class JournalServiceLive: JournalService {
             var request = URLRequest(url: self.url)
             let body = RegisterUserRequestBody(userName: userName, password: password)
             request.httpMethod = HttpMethod.POST.rawValue
-            setRequestBody(request: &request, body: body)
+            setRequestBody(request: &request, body: body, token: nil)
             guard let _ = request.httpBody else {
                 return nil
             }
             return request
         }
 
-        func createTripsRequest(httpMethod: HttpMethod, tripID: Int?, tripBody: TripCreate?, tripUpdateBody: TripUpdate?) -> URLRequest? {
+        func createTripsRequest(httpMethod: HttpMethod, tripID: Int?, tripBody: TripCreate?, tripUpdateBody: TripUpdate?, token: Token?) -> URLRequest? {
             switch httpMethod {
             case .POST:
                 guard let tripBody = tripBody else {
@@ -120,7 +120,7 @@ class JournalServiceLive: JournalService {
                 }
                 var request = URLRequest(url: self.url)
                 request.httpMethod = HttpMethod.POST.rawValue
-                setRequestBody(request: &request, body: tripBody)
+                setRequestBody(request: &request, body: tripBody, token: token)
                 guard let _ = request.httpBody else {
                     return nil
                 }
@@ -142,7 +142,7 @@ class JournalServiceLive: JournalService {
                 }
                 var request = URLRequest(url: self.url)
                 request.httpMethod = HttpMethod.PUT.rawValue
-                setRequestBody(request: &request, body: tripBody)
+                setRequestBody(request: &request, body: tripBody, token: token)
                 guard let _ = request.httpBody else {
                     return nil
                 }
@@ -150,7 +150,7 @@ class JournalServiceLive: JournalService {
             }
         }
         
-        func createEventsRequest(httpMethod: HttpMethod, eventID: Int?, eventBody: EventCreate?, eventUpdateBody: EventUpdate?) -> URLRequest? {
+        func createEventsRequest(httpMethod: HttpMethod, eventID: Int?, eventBody: EventCreate?, eventUpdateBody: EventUpdate?, token: Token?) -> URLRequest? {
             switch httpMethod {
             case .POST:
                 guard let eventBody = eventBody else {
@@ -158,7 +158,7 @@ class JournalServiceLive: JournalService {
                 }
                 var request = URLRequest(url: self.url)
                 request.httpMethod = HttpMethod.POST.rawValue
-                setRequestBody(request: &request, body: eventBody)
+                setRequestBody(request: &request, body: eventBody, token: token)
                 guard let _ = request.httpBody else {
                     return nil
                 }
@@ -180,7 +180,7 @@ class JournalServiceLive: JournalService {
                 }
                 var request = URLRequest(url: self.url)
                 request.httpMethod = HttpMethod.PUT.rawValue
-                setRequestBody(request: &request, body: eventBody)
+                setRequestBody(request: &request, body: eventBody, token: token)
                 guard let _ = request.httpBody else {
                     return nil
                 }
@@ -188,7 +188,7 @@ class JournalServiceLive: JournalService {
             }
         }
         
-        func createMediaRequest(httpMethod: HttpMethod, mediaID: Int?, mediaBody: MediaCreate?) -> URLRequest? {
+        func createMediaRequest(httpMethod: HttpMethod, mediaID: Int?, mediaBody: MediaCreate?, token: Token?) -> URLRequest? {
             switch httpMethod {
             case .POST:
                 guard let mediaBody = mediaBody else {
@@ -196,7 +196,7 @@ class JournalServiceLive: JournalService {
                 }
                 var request = URLRequest(url: self.url)
                 request.httpMethod = HttpMethod.POST.rawValue
-                setRequestBody(request: &request, body: mediaBody)
+                setRequestBody(request: &request, body: mediaBody, token: token)
                 guard let _ = request.httpBody else {
                     return nil
                 }
@@ -213,8 +213,13 @@ class JournalServiceLive: JournalService {
             }
         }
         
-        func setRequestBody( request: inout URLRequest, body: Codable) {
+        func setRequestBody( request: inout URLRequest, body: Codable, token: Token?) {
             do {
+                request.addValue("application/json", forHTTPHeaderField: "accept")
+                request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+                if let token = token  {
+                    request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+                }
                 request.httpBody = try JSONEncoder().encode(body)
             } catch {
                 print("Error in encoding the request body")
@@ -237,54 +242,54 @@ class JournalServiceLive: JournalService {
     }
     
     func createTrip(with request: TripCreate) async throws -> Trip {
-        let request = APIEndPoints.trips(.POST, nil, request, nil).request
+        let request = APIEndPoints.trips(.POST, nil, request, nil, token).request
         return try await doNetworkRequest(request: request)
     }
     
     func getTrips() async throws -> [Trip] {
-        let request = APIEndPoints.trips(.GET, nil, nil, nil).request
+        let request = APIEndPoints.trips(.GET, nil, nil, nil, token).request
         return try await doNetworkRequest(request: request)
     }
     
     func getTrip(withId tripId: Trip.ID) async throws -> Trip {
-        let request = APIEndPoints.trips(.GET, tripId, nil, nil).request
+        let request = APIEndPoints.trips(.GET, tripId, nil, nil, token).request
         return try await doNetworkRequest(request: request)
     }
     
     func updateTrip(withId tripId: Trip.ID, and request: TripUpdate) async throws -> Trip {
-        let request = APIEndPoints.trips(.PUT, tripId, nil, request).request
+        let request = APIEndPoints.trips(.PUT, tripId, nil, request, token).request
         return try await doNetworkRequest(request: request)
     }
     
     func deleteTrip(withId tripId: Trip.ID) async throws {
-        if let request = APIEndPoints.trips(.DELETE, tripId, nil, nil).request {
+        if let request = APIEndPoints.trips(.DELETE, tripId, nil, nil, token).request {
             let (_, _) = try await URLSession.shared.data(for: request)
         }
     }
     
     func createEvent(with request: EventCreate) async throws -> Event {
-        let request = APIEndPoints.events(.POST, nil, request, nil).request
+        let request = APIEndPoints.events(.POST, nil, request, nil, token).request
         return try await doNetworkRequest(request: request)
     }
     
     func updateEvent(withId eventId: Event.ID, and request: EventUpdate) async throws -> Event {
-        let request = APIEndPoints.events(.PUT, eventId, nil, request).request
+        let request = APIEndPoints.events(.PUT, eventId, nil, request, token).request
         return try await doNetworkRequest(request: request)
     }
     
     func deleteEvent(withId eventId: Event.ID) async throws {
-        if let request = APIEndPoints.events(.DELETE, eventId, nil, nil).request {
+        if let request = APIEndPoints.events(.DELETE, eventId, nil, nil, token).request {
             let (_, _) = try await URLSession.shared.data(for: request)
         }
     }
     
     func createMedia(with request: MediaCreate) async throws -> Media {
-        let request = APIEndPoints.media(.POST, nil, request).request
+        let request = APIEndPoints.media(.POST, nil, request, token).request
         return try await doNetworkRequest(request: request)
     }
     
     func deleteMedia(withId mediaId: Media.ID) async throws {
-        if let request = APIEndPoints.media(.DELETE, mediaId, nil).request {
+        if let request = APIEndPoints.media(.DELETE, mediaId, nil, token).request {
             let (_, _) = try await URLSession.shared.data(for: request)
         }
     }
@@ -294,6 +299,7 @@ class JournalServiceLive: JournalService {
             guard let request = request else {
                 throw APIError.BAD_REQUEST
             }
+                        
             let (data, response) = try await URLSession.shared.data(for: request)
             guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
                 throw APIError.BAD_RESPONSE
