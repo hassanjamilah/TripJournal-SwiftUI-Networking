@@ -83,10 +83,6 @@ class JournalServiceLive: JournalService {
                 return createEventsRequest(httpMethod: httpMethod, eventID: eventID, eventBody: eventBody, eventUpdateBody: eventUpdateBody, token: token)
             case let .media(httpMethod, mediaID, mediaBody, token):
                 return createMediaRequest(httpMethod: httpMethod, mediaID: mediaID, mediaBody: mediaBody, token: token)
-            default:
-                return nil
-                break
-                
             }
         }
                                          
@@ -103,9 +99,12 @@ class JournalServiceLive: JournalService {
         
         func createLoginRequest(userName: String, password: String) -> URLRequest? {
             var request = URLRequest(url: self.url)
-            let body = RegisterUserRequestBody(userName: userName, password: password)
+            request.addValue("JSON", forHTTPHeaderField: "accept")
+            request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+            let loginData = "grant_type=&username=\(userName)&password=\(password)"
+            request.httpBody = loginData.data(using: .utf8)
             request.httpMethod = HttpMethod.POST.rawValue
-            setRequestBody(request: &request, body: body, token: nil)
+            
             guard let _ = request.httpBody else {
                 return nil
             }
@@ -127,6 +126,7 @@ class JournalServiceLive: JournalService {
                 return request
             case .GET:
                 var request = URLRequest(url: self.url)
+                setRequestHeaders(request: &request, token: token)
                 request.httpMethod = HttpMethod.GET.rawValue
                 return request
             case .DELETE:
@@ -134,6 +134,7 @@ class JournalServiceLive: JournalService {
                     return nil
                 }
                 var request = URLRequest(url: self.url)
+                setRequestHeaders(request: &request, token: token)
                 request.httpMethod = HttpMethod.DELETE.rawValue
                 return request
             case .PUT:
@@ -166,6 +167,7 @@ class JournalServiceLive: JournalService {
             case .GET:
                 var request = URLRequest(url: self.url)
                 request.httpMethod = HttpMethod.GET.rawValue
+                setRequestHeaders(request: &request, token: token)
                 return request
             case .DELETE:
                 guard let _ = eventID else {
@@ -173,6 +175,7 @@ class JournalServiceLive: JournalService {
                 }
                 var request = URLRequest(url: self.url)
                 request.httpMethod = HttpMethod.DELETE.rawValue
+                setRequestHeaders(request: &request, token: token)
                 return request
             case .PUT:
                 guard let _ = eventID, let eventBody = eventUpdateBody else {
@@ -207,6 +210,7 @@ class JournalServiceLive: JournalService {
                 }
                 var request = URLRequest(url: self.url)
                 request.httpMethod = HttpMethod.DELETE.rawValue
+                setRequestHeaders(request: &request, token: token)
                 return request
             default:
                 return nil
@@ -215,26 +219,34 @@ class JournalServiceLive: JournalService {
         
         func setRequestBody( request: inout URLRequest, body: Codable, token: Token?) {
             do {
-                request.addValue("application/json", forHTTPHeaderField: "accept")
-                request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-                if let token = token  {
-                    request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-                }
+                setRequestHeaders(request: &request, token: token)
                 request.httpBody = try JSONEncoder().encode(body)
             } catch {
                 print("Error in encoding the request body")
+            }
+        }
+        
+        func setRequestHeaders(request: inout URLRequest, token: Token?) {
+            request.addValue("application/json", forHTTPHeaderField: "accept")
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            if let token = token  {
+                request.setValue("Bearer \(token.accessToken)", forHTTPHeaderField: "Authorization")
             }
         }
     }
     
     func register(username: String, password: String) async throws -> Token {
         let request = APIEndPoints.register(username, password).request
-        return try await doNetworkRequest(request: request)
+        let token: Token = try await doNetworkRequest(request: request)
+        self.token = token
+        return token
     }
     
     func logIn(username: String, password: String) async throws -> Token {
         let request = APIEndPoints.login(username, password).request
-        return try await doNetworkRequest(request: request)
+        let token: Token = try await doNetworkRequest(request: request)
+        self.token = token
+        return token
     }
     
     func logOut() {
